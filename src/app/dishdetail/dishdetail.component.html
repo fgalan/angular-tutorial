@@ -48,22 +48,24 @@
         </p>
       </mat-list-item>
     </mat-list>
-    <form novalidate>
+    <form novalidate [formGroup]="commentForm" #fform="ngForm" (ngSubmit)="onSubmit()">
       <!-- FIXME: form it not taking full width -->
       <p>
         <mat-form-field class="full-width">
-          <input matInput placeholder="Name" type="text">
+          <input matInput placeholder="Name" formControlName="name" type="text" required>
+          <mat-error *ngIf="formErrors.name">{{formErrors.name}}</mat-error>
         </mat-form-field>
       </p>
       <p>
-         <mat-slider thumbLabel min="1" max="5" step="1" tickInterval="1" value="5"></mat-slider>
+         <mat-slider thumbLabel min="1" max="5" step="1" tickInterval="1" value="5" formControlName="rating"></mat-slider>
       </p>
       <p>
-        <mat-form-field class="full-width">
-          <textarea matInput placeholder="Your comment" rows=12></textarea>
+        <mat-form-field  class="full-width">
+          <textarea matInput placeholder="Your comment" formControlName="comment" rows=12 required></textarea>
+          <mat-error *ngIf="formErrors.comment">{{formErrors.comment}}</mat-error>
         </mat-form-field>
       </p>
-      <button type="submit" mat-button class="background-primary text-floral-white">Submit</button>
+      <button [disabled]="commentForm.invalid" type="submit" mat-button class="background-primary text-floral-white">Submit</button>
     </form>
   </div>
   <div [hidden]="dish">
